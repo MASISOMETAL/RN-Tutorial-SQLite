@@ -1,15 +1,18 @@
 import { StyleSheet, Text, View, Modal, Dimensions, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { deleteList } from '../database'
+import { deleteList, loadList } from '../database'
 
 const { height, width } = Dimensions.get("window")
 
 const CustomModal = ({ modal, setModal, item, setForm, setSelectModal, form }) => {
 
     const DeleteList = async (item) =>{
+        //Borrar dato de la base de datos
         await deleteList(item.id)
-        const newItem = form.filter((items)=> items.id !== item.id)
-        setForm(newItem)
+        //Volver a cargar la base de Datos
+        const result = await loadList()
+        const array = result?.rows?._array
+        setForm(array)
         setModal(false)
         setSelectModal(null)
     }
@@ -50,7 +53,7 @@ const styles = StyleSheet.create({
         margin: 20,
         borderRadius: 10,
         paddingHorizontal: 30,
-        paddingVertical: 10,
+        paddingVertical: 20,
         shadowColor: "#fff",
         shadowOffset: {
             width: 3,
@@ -64,20 +67,24 @@ const styles = StyleSheet.create({
         width: width * 0.75,
         justifyContent: "flex-start",
         alignItems: "center",
-        borderBottomColor: "#000",
+        borderBottomColor: "#f4a404",
         borderBottomWidth: 2,
     },
     msgText:{
         marginBottom: height * 0.01,
     },
     containerBox: {
-        marginTop: height * 0.015,
+        marginTop: height * 0.02,
         flexDirection: 'row',
     },
     btn:{
+        justifyContent: 'center',
+        alignItems: 'center',
         borderWidth: 1,
-        padding: 5,
-        marginHorizontal: 10,
+        borderColor: "#f4a404",
+        width: width * 0.2,
+        height: height * 0.05,
+        marginHorizontal: width * 0.1,
     },
     textBtn:{
         fontWeight: 'bold',

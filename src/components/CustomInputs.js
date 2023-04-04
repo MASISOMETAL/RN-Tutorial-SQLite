@@ -8,10 +8,10 @@ const CustomInputs = ({ label, placeholder, datos, tipo, setDatos, value }) => {
     const onChangeText = (text, tipo) => {
         switch (tipo) {
             case "nombre":
-                setDatos({...datos, nombres: text, id: new Date()})
+                setDatos({...datos, nombres: text})
                 return
             case "apellido":
-                setDatos({...datos, apellidos: text, id: new Date()})
+                setDatos({...datos, apellidos: text})
                 return
             default:
                 return;

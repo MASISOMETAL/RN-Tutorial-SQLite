@@ -23,11 +23,23 @@ const Home = () => {
     }, [])
 
     const DeleteList = (item) => {
-        /*deleteList(id)
-        const newItem = form.filter((item)=> item.id !== id)
-        setForm(newItem)*/
         setSelectModal(item)
         setModal(!modal)
+    }
+
+    const onHandleSendForm = async () => {
+        if (datos.nombres == "" || datos.apellidos == "") {
+            Alert.alert("Debes completar los datos")
+        } else {
+            // Agregar datos a la base de datos
+            await addList(datos.nombres, datos.apellidos)
+            // Cargar la base de datos actualizada, y almacenarlos en el estado form
+            const result = await loadList()
+            const array = result?.rows?._array
+            setForm(array)
+            setDatos({ nombres: "", apellidos: "", id: "" })
+            Alert.alert("Los datos se enviaron correctamente")
+        }
     }
 
     const RenderItem = ({ item }) => {
@@ -41,17 +53,6 @@ const Home = () => {
                 </Text>
             </TouchableOpacity>
         )
-    }
-
-    const onHandleSendForm = async () => {
-        if (datos.nombres == "" || datos.apellidos == "") {
-            Alert.alert("Debes completar los datos")
-        } else {
-            await addList(datos.nombres, datos.apellidos)
-            setForm([...form, datos])
-            setDatos({ nombres: "", apellidos: "", id: "" })
-            Alert.alert("Los datos se enviaron correctamente")
-        }
     }
 
     return (
